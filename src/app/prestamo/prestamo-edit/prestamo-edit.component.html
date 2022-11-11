@@ -1,0 +1,65 @@
+<div class="container">
+    <h1 *ngIf="prestamo.id == null">Crear préstamo</h1>
+    <h1 *ngIf="prestamo.id != null">Modificar préstamo</h1>
+
+    <form>
+        <mat-form-field>
+            <mat-label>Identificador</mat-label>
+            <input type="number" matInput placeholder="Identificador" [(ngModel)]="prestamo.id" name="id" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Título del juego</mat-label>
+            <mat-select disableRipple [(ngModel)]="prestamo.game" name="game" required>
+                <mat-option *ngFor="let game of games" [value]="game">{{game.title}}</mat-option>
+            </mat-select>
+            <mat-error>El título no puede estar vacío</mat-error>
+        </mat-form-field> 
+
+        <mat-form-field>
+            <mat-label>Nombre del cliente</mat-label>
+            <mat-select disableRipple [(ngModel)]="prestamo.client" name="client" required>
+                <mat-option *ngFor="let client of clientes" [value]="client">{{client.name}}</mat-option>
+            </mat-select>
+            <mat-error>El cliente no puede estar vacío</mat-error>
+        </mat-form-field>
+        <br><br>
+        <mat-label><b>Fecha de Préstamo</b></mat-label><br>
+        
+        <div class ="calendar">
+            
+            <mat-form-field class="calendarform" appearance="fill">
+            
+                <mat-label>Fecha de inicio</mat-label>
+                <input matInput [matDatepicker]="picker" [(ngModel)]="prestamo.fechaPrestamo" name="fechaPrestamo" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>                
+                <mat-error>La fecha de préstamo no puede estar vacía</mat-error>
+            </mat-form-field>  
+        
+            <mat-form-field class="calendarform" appearance="fill">
+            
+                <mat-label>Fecha de fin</mat-label>
+                <input matInput [matDatepicker]="picker1" [(ngModel)]="prestamo.fechaDevolucion" name="fechaDevolucion" required>
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+                <mat-error>La fecha de devolución no puede estar vacía</mat-error>
+            </mat-form-field>  
+
+        </div>
+        
+        <div *ngIf="msgException">
+            <p>La fecha introducida supera los 14 días. Introduzca un rango menor.</p>
+        </div>
+
+    
+        
+    </form>
+
+    <div class="buttons">
+        <button mat-stroked-button (click)="onClose()">Cerrar</button>
+        <button mat-flat-button color="primary" (click)="onSave()">Guardar</button>
+    </div>
+</div>
